@@ -1,0 +1,22 @@
+public class BouncingBallsWindow extends JFrame {
+    public BouncingBallsWindow() {  // Create window
+        setTitle("One Bouncing Ball");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        add(new BouncingBalls());  // Add bouncing ball panel
+
+        pack();  // Set the window size
+        setLocationRelativeTo(null);  // Center the window in the display
+    }
+
+    public static void main(String[] args) {
+        // Run GUI in the Event Dispatcher Thread (EDT)
+        SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    // Set up main window (using Swing's Jframe)
+                    BouncingBallsWindow bbw = new BouncingBallsWindow();
+                    bbw.setVisible(true);
+                }
+            });
+    }
+}
