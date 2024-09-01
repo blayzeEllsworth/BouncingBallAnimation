@@ -1,0 +1,59 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class BouncingText extends JPanel implements ActionListener {
+    private String text = "Hello There!";
+    private int x = 50;
+    private int y = 50;
+    private int dx = 17;
+    private int dy = 17;
+    private Font font = new Font("Times New Roman", Font.BOLD, 80);
+    private Color textColor = new Color(255, 0, 0);  // Cyan color for the text
+    private Color shadowColor = new Color(100, 0, 0);
+
+    public BouncingText() {
+        Timer timer = new Timer(10, this);
+        timer.start();
+        setBackground(Color.BLACK);  // Set the background to black
+    }
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setFont(font);
+        //Draw shadow
+        g2d.setColor(shadowColor);
+        g2d.drawString(text, x + 10, y + 10);  // Offset shadow by 3 pixels
+
+        // Draw main text
+        g2d.setColor(textColor);
+        g2d.drawString(text, x, y);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        // Update position
+        x += dx;
+        y += dy;
+
+        // Check for collisions with window edges
+        if (x <= 0 || x >= getWidth() - getFontMetrics(font).stringWidth(text)) {
+            dx = -dx;
+        }
+        if (y <= getFontMetrics(font).getAscent() || y >= getHeight()) {
+            dy = -dy;
+        }
+
+        repaint();
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Bouncing Text");
+        frame.add(new BouncingText());
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+}
